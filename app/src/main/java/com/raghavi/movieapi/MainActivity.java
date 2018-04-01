@@ -1,11 +1,11 @@
-
-
 package com.raghavi.movieapi;
 
 import android.app.DownloadManager;
 import android.app.VoiceInteractor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
    // TextView result;
     String data = "";
     String API_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=356198a284dfa824f91f9aab8aa3e1e8&language=en-US&page=1";
-    ListView listView;
+    //ListView listView;
     List<String> list;
     ArrayAdapter<String> adapter;
     RequestQueue requestQueue;
@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
         list = new ArrayList<String>();
         requestQueue = Volley.newRequestQueue(this);
         //result = (TextView) findViewById(R.id.jsonData);
-        listView = (ListView) findViewById(R.id.lview);
-        adapter = new ArrayAdapter<String>(this, R.layout.single_list_item, list);
-        listView.setAdapter(adapter);
+        //listView = (ListView) findViewById(R.id.lview);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,list);
+
 
         // JsonObjectRequest objectRequest=new JsonObjectRequest(Request.Method.GET,www.api.themoviedb.org/3/movie/550?api_key=356198a284dfa824f91f9aab8aa3e1e8)
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         adapter.notifyDataSetChanged();
-
+    //                    listView.setAdapter(adapter);
                     }
                 }, new Response.ErrorListener() {
 
@@ -98,6 +98,20 @@ public class MainActivity extends AppCompatActivity {
 
 
         queue.add(stringRequest);
+
+        ItemData[] data = new ItemData[0];
+
+        for (int i = 0; i < list.size(); i++) {
+            new ItemData(list.get(i), R.drawable.events);
+        }
+
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        adapter adapterobj = new adapter(data);
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapterobj);
     }
 }
 /*

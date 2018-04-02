@@ -11,8 +11,8 @@ android:background="@drawable/events"
 
     <TextView
         android:id="@+id/list_item_text_view"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

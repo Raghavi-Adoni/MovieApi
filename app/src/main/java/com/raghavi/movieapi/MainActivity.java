@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,13 +28,15 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-   // TextView result;
+    // TextView result;
     String data = "";
     String API_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=356198a284dfa824f91f9aab8aa3e1e8&language=en-US&page=1";
     //ListView listView;
     List<String> list;
     ArrayAdapter<String> adapter;
     RequestQueue requestQueue;
+    ItemData[] dataSet;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
         //result = (TextView) findViewById(R.id.jsonData);
         //listView = (ListView) findViewById(R.id.lview);
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,list);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
 
 
         // JsonObjectRequest objectRequest=new JsonObjectRequest(Request.Method.GET,www.api.themoviedb.org/3/movie/550?api_key=356198a284dfa824f91f9aab8aa3e1e8)
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
+                        dataSet = new ItemData[arr.length()];
                         for (int i = 0; i < arr.length(); i++) {
                             String info = null;
                             try {
@@ -74,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
                                 info = object.getString("title");
 
                                 list.add(info);
-
+                                dataSet[i] = new ItemData(info, R.drawable.events);
+                               // itemDataList.add(new ItemData(info, R.drawable.events));
                                 // info = arr.getJSONObject(i).getString("title");
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -83,7 +87,24 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         adapter.notifyDataSetChanged();
-    //                    listView.setAdapter(adapter);
+                        //                    listView.setAdapter(adapter);
+                        Log.d("output", String.valueOf(list));
+                        //
+
+                      /*  for (int i = 0; i < list.size(); i++) {
+                            dataSet[i]= new ItemData(list.get(i), R.drawable.events);
+                        }
+
+                       dataSet[0]= new ItemData(list.get(0), R.drawable.events);
+                        dataSet[1]= new ItemData(list.get(1), R.drawable.events);
+                        dataSet[2]= new ItemData(list.get(2), R.drawable.events);
+*/
+                        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+                        adapter adapterobj = new adapter(dataSet);
+
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                        recyclerView.setAdapter(adapterobj);
                     }
                 }, new Response.ErrorListener() {
 
@@ -99,19 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
         queue.add(stringRequest);
 
-        ItemData[] data = new ItemData[0];
 
-        for (int i = 0; i < list.size(); i++) {
-            new ItemData(list.get(i), R.drawable.events);
-        }
-
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        adapter adapterobj = new adapter(data);
-
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapterobj);
     }
 }
 /*

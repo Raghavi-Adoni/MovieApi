@@ -1,6 +1,6 @@
 package com.raghavi.movieapi;
 
-/**
+/*
  * Created by Raghavi on 4/1/2018.
  */
 
@@ -16,14 +16,17 @@ public class ItemData {
         }
 
         public String getDescription() {
+
             return description;
         }
 
         public void setDescription(String description) {
+
             this.description = description;
         }
 
         public int getImgId() {
+
             return imgId;
         }
 
